@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form #myForm="ngForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+         <div class="row">
+             <div class="col-xs-12">
+                 <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid" >Save</button>
+                 <button type="button" class="btn btn-danger" style="margin-left: 10px;" (click)="onCancel()">Cancel</button>
+             </div>
+         </div>
+         <div class="row">
+             <div class="col-xs-12">
+                 <div class="form-group" >
+                     <label for="name" style="margin-top: 10px;">Name</label>
+                     <input 
+                     type="text" 
+                     id="name" 
+                     formControlName="name"
+                     class="form-control">
+                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                          class="alert alert-danger">
+                         <div *ngIf="name?.errors?.['required']">
+                            Name is required.
+                         </div>
+                     </div>
+                </div>
+             </div>
+         </div>
+         <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="imagePath">Image URL</label>
+                    <input 
+                    type="text" 
+                    id="name" 
+                    formControlName="imagePath"
+                    class="form-control"
+                    #imagePath>
+                <div *ngIf="imagePathVal?.invalid && (imagePathVal?.dirty || imagePathVal?.touched)"
+                    class="alert alert-danger">
+                   <div *ngIf="imagePathVal?.errors?.['required']">
+                      Image URL is required.
+                   </div>
+               </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <img [src]="imagePath.value" class="img-responsive" style="max-height: 100px;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea 
+                    type="text" 
+                    id="description" 
+                    formControlName="description"
+                    class="form-control"
+                    rows="6"></textarea>
+                    <div *ngIf="descriptionVal?.invalid && (descriptionVal?.dirty || descriptionVal?.touched)"
+                    class="alert alert-danger">
+                   <div *ngIf="descriptionVal?.errors?.['required']">
+                      Please provide information about your recipe
+                   </div>
+               </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" formArrayName="ingredients">
+                <label for="ingredients">Ingredients</label>
+              <div 
+              class="row" 
+              *ngFor="let ingredientCtrl of controls; let i = index"
+              [formGroupName]="i"
+              style="margin-top: 10px;">
+                  <div class="col-xs-8">
+                      <input 
+                      type="text" 
+                      class="form-control"
+                      formControlName="name">
+                      <div *ngIf="descriptionVal?.invalid && (descriptionVal?.dirty || descriptionVal?.touched)"
+                      class="alert alert-danger">
+                     <div *ngIf="descriptionVal?.errors?.['required']">
+                       Ingredient Name is required.
+                     </div>
+                 </div>
+                  </div>
+                  <div class="col-xs-2">
+                    <input 
+                    type="number" 
+                    class="form-control"
+                    formControlName="amount">
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-danger" (click)="onDeleteIngredients(i)">X</button>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                  <div class="col-xs-12">
+                      <button type="button" class="btn btn-success" (click)="onAddIngredients()">Add Ingredient</button>
+                  </div>
+              </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
